@@ -1,0 +1,21 @@
+#!/bin/bash
+
+ES_GPT_DIR="${HOME}/src/elasticgpt"
+ES_GPT_GIT="https://github.com/Codyjackson0321/ElasticDocs_GPT_Expanded.git"
+if [ -d ${ES_GPT_DIR} ]; then
+  cd ${ES_GPT_DIR}
+  git pull
+else
+  mkdir -p ${ES_GPT_DIR}
+  git clone ${ES_GPT_GIT}
+fi
+
+GAI_DIR="${HOME}/src/genai"
+GAI_GIT="https://github.com/sajitsasi/genai-workshop.git"
+if [ -d ${GAI_DIR} ]; then
+  cd ${GAI_DIR}
+  git pull
+else
+  mkdir -p ${GAI_DIR}
+  git clone ${GAI_GPT} ${GAI_DIR}/
+fi

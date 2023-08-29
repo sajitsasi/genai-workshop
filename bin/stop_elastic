@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd ${HOME}/src/genai
+DOCKER_COMPOSE=/home/ubuntu/miniconda3/envs/elastic-workshop/bin/docker-compose
+cd ~ubuntu/src/genai
+${DOCKER_COMPOSE} down

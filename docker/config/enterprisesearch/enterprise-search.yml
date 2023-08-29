@@ -1,0 +1,7 @@
+audit_log_directory: /var/log/enterprise-search
+ent_search.listen_host: 0.0.0.0
+filebeat_log_directory: /var/log/enterprise-search
+log_directory: /var/log/enterprise-search
+metricbeat_log_directory: /var/log/enterprise-search
+secret_management.encryption_keys: ['d521bd730915915e1b6922da9fc150ddfe512e5d44eb89070b13f9429444a361']
+
