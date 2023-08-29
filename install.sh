@@ -13,3 +13,4 @@ cp -f ./bin/stop_ml_models ${HOME}/bin && chmod 755 ${HOME}/bin/.stop_ml_models
 #Install software in ${HOME}/src directories
 echo "Creating ${HOME}/src/genai"
 mkdir -p ${HOME}/src/genai
+tar cf - -C ./docker . | tar xf - -C ${HOME}/src/genai
