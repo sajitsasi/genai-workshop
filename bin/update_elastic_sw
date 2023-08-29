@@ -17,7 +17,7 @@ if [ -d ${GAIW_DIR} ]; then
   git pull
 else
   mkdir -p ${GAIW_DIR}
-  git clone ${GAIW_GIT} ${GAIW_DIR}/
+  git clone ${GAIW_GIT} ${GAIW_DIR}
 fi
 
 GENAI_DIR="${HOME}/src/genai"
@@ -25,4 +25,5 @@ if [ ! -d ${GENAI_DIR} ]; then
   mkdir -p ${GENAI_DIR}
 fi
 
-cd ${GAIW_DIR} && tar cf - -C ./docker . | tar xf - -C ${GENAI_DIR}
+cd ${GAIW_DIR} 
+tar cf - -C ./docker . | tar xf - -C ${GENAI_DIR}
