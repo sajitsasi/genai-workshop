@@ -21,7 +21,7 @@ else
 fi
 
 GENAI_DIR="${HOME}/src/genai"
-if [ !-d ${GENAI_DIR} ]; then
+if [ ! -d ${GENAI_DIR} ]; then
   mkdir -p ${GENAI_DIR}
 fi
 
