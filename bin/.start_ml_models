@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Starting ml models"
+export ELASTIC_USER="elastic"
+export ELASTIC_PASS=$(~/bin/get_elastic_password)
+export CERTS_LOC=${HOME}/src/genai/certs/ca/ca.crt
+export CURL=/usr/bin/curl
+export CURL_BACK="--cacert ${CERTS_LOC} -u ${ELASTIC_USER}:${ELASTIC_PASS}"
+for i in `${CURL} -s -X GET "https://localhost:9200/_ml/trained_models/?pretty" ${CURL_BACK} | jq -r '.trained_model_configs | .[] | .model_id' | grep -v lang_ident_model_1`; do
+    echo -n "starting ml model ${i}..."
+    start_model=$(${CURL} -s -X POST "https://localhost:9200/_ml/trained_models/${i}/deployment/_start?wait_for=started&timeout=2m&pretty" ${CURL_BACK} | jq -r '.assignment.routing_table[] | .routing_state')
+    echo "${start_model}"
+done

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Stopping ml models"
+ELASTIC_USER="elastic"
+ELASTIC_PASS=$(~/bin/get_elastic_password)
+CERTS_LOC=${HOME}/src/genai/certs/ca/ca.crt
+CURL=/usr/bin/curl
+CURL_BACK="--cacert ${CERTS_LOC} -u ${ELASTIC_USER}:${ELASTIC_PASS}"
+for i in `${CURL} -s -X GET "https://localhost:9200/_ml/trained_models/?pretty" ${CURL_BACK} | jq -r '.trained_model_configs | .[] | .model_id' | grep -v lang_ident_model_1`; do
+    echo -n "stopping ml model ${i}..."
+    stop_model=$(${CURL} -s -X POST "https://localhost:9200/_ml/trained_models/${i}/deployment/_stop" ${CURL_BACK} | jq -r '.stopped')
+    echo ${stop_model}
+done
