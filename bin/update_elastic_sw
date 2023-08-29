@@ -10,12 +10,19 @@ else
   git clone ${ES_GPT_GIT}
 fi
 
-GAI_DIR="${HOME}/src/genai"
-GAI_GIT="https://github.com/sajitsasi/genai-workshop.git"
-if [ -d ${GAI_DIR} ]; then
-  cd ${GAI_DIR}
+GAIW_DIR="${HOME}/src/genai-workshop"
+GAIW_GIT="https://github.com/sajitsasi/genai-workshop.git"
+if [ -d ${GAIW_DIR} ]; then
+  cd ${GAIW_DIR}
   git pull
 else
-  mkdir -p ${GAI_DIR}
-  git clone ${GAI_GPT} ${GAI_DIR}/
+  mkdir -p ${GAIW_DIR}
+  git clone ${GAIW_GPT} ${GAIW_DIR}/
 fi
+
+GENAI_DIR="${HOME}/src/genai"
+if [ !-d ${GENAI_DIR} ]; then
+  mkdir -p ${GENAI_DIR}
+fi
+
+cd ${GAIW_DIR} && tar cf - -C ./docker . | tar xf - -C ${GENAI_DIR}
