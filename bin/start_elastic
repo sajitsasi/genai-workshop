@@ -41,9 +41,16 @@ ${DOCKER_COMPOSE} up -d
 while true; do
   if isElasticsearchRunning; then
     echo "Elasticsearch services are up"
-    exit 0
+    break
   else
     echo "Waiting for Elasticsearch services to come up..."
     sleep 15
   fi
 done
+
+echo "verifying ML models"
+sleep 15
+${HOME}/bin/.stop_ml_models
+echo "done stopping ML models, restarting..."
+sleep 15
+${HOME}/bin/.start_ml_models
