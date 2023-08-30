@@ -3,32 +3,47 @@
 
 DOCKER_COMPOSE=/home/ubuntu/miniconda3/envs/elastic-workshop/bin/docker-compose
 isElasticsearchRunning() {
-    if ${DOCKER_COMPOSE} ps | grep -iEq 'node1.*up.*healthy' &&
-       ${DOCKER_COMPOSE} ps | grep -iEq 'node2.*up.*healthy' &&
-       ${DOCKER_COMPOSE} ps | grep -iEq 'node3.*up.*healthy' &&
-       ${DOCKER_COMPOSE} ps | grep -iEq 'kibana.*up.*healthy' &&
-       ${DOCKER_COMPOSE} ps | grep -iEq 'enterprisesearch.*up.*healthy'; then
-    	return 0
+  if ${DOCKER_COMPOSE} ps | grep -iEq 'node1.*up.*healthy' &&
+    ${DOCKER_COMPOSE} ps | grep -iEq 'node2.*up.*healthy' &&
+    ${DOCKER_COMPOSE} ps | grep -iEq 'node3.*up.*healthy' &&
+    ${DOCKER_COMPOSE} ps | grep -iEq 'kibana.*up.*healthy' &&
+    ${DOCKER_COMPOSE} ps | grep -iEq 'enterprisesearch.*up.*healthy'; then
+      return 0
     else
-        return 1
-    fi
+      return 1
+  fi
 }    
 
+didElasticExit() {
+  if ${DOCKER_COMPOSE} ps | grep -iEq 'node1.*Exit' ||
+    ${DOCKER_COMPOSE} ps | grep -iEq 'node2.*Exit' ||
+    ${DOCKER_COMPOSE} ps | grep -iEq 'node3.*Exit' ||
+    ${DOCKER_COMPOSE} ps | grep -iEq 'kibana.*Exit' ||
+    ${DOCKER_COMPOSE} ps | grep -iEq 'enterprisesearch.*Exit'; then
+      return 0
+    else
+      return 1
+  fi
+}
+
 cd ${HOME}/src/genai
-if isElasticsearchRunning; then
-    echo "Elasticsearch services are already running..."
-    exit 0
-else
-    echo "Starting Elasticsearch services..."
-    ${DOCKER_COMPOSE} up -d
+if didElasticExit; then
+  echo "Elasticsearch services did not exit cleanly, removing resources..."
+  ${DOCKER_COMPOSE} down
+elif isElasticsearchRunning; then
+  echo "Elasticsearch services are already running..."
+  exit 0
 fi
 
+echo "Starting Elasticsearch services..."
+${DOCKER_COMPOSE} up -d
+
 while true; do
-	if isElasticsearchRunning; then
-	    echo "Elasticsearch services are up"
-	    exit 0
-	else
-	    echo "Waiting for Elasticsearch services to come up..."
-	    sleep 15
-	fi
+  if isElasticsearchRunning; then
+    echo "Elasticsearch services are up"
+    exit 0
+  else
+    echo "Waiting for Elasticsearch services to come up..."
+    sleep 15
+  fi
 done
