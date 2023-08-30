@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#Copy latest ElasticDocsGPT source code
+echo "Getting latest elasticgpt source"
 ES_GPT_DIR="${HOME}/src/elasticgpt"
 ES_GPT_GIT="https://github.com/Codyjackson0321/ElasticDocs_GPT_Expanded.git"
 if [ -d ${ES_GPT_DIR} ]; then
@@ -10,7 +12,9 @@ else
   git clone ${ES_GPT_GIT}
 fi
 
-GAIW_DIR="${HOME}/src/genai-workshop"
+#Copy latest genai-workshop source
+echo "Getting latest genai source"
+GAIW_DIR="${HOME}/src/.genai-workshop"
 GAIW_GIT="https://github.com/sajitsasi/genai-workshop.git"
 if [ -d ${GAIW_DIR} ]; then
   cd ${GAIW_DIR}
@@ -27,3 +31,4 @@ fi
 
 cd ${GAIW_DIR} 
 tar cf - -C ./docker . | tar xf - -C ${GENAI_DIR}
+tar cf - -C ./bin . | tar xf - -C ${HOME}/bin
